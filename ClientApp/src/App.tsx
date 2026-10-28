@@ -3,6 +3,7 @@ import { Header } from './components/Header'
 import { IngestPanel } from './components/IngestPanel'
 import { ChatWindow } from './components/ChatWindow'
 import { InputBar } from './components/InputBar'
+import { SummaryModal } from './components/SummaryModal'
 import type { Message, ChunkResult, IngestResponse } from './types'
 
 function makeId() {
@@ -10,10 +11,11 @@ function makeId() {
 }
 
 export default function App() {
-  const [userId, setUserId]             = useState('alice')
+  const [userId, setUserId]               = useState('alice')
   const [conversationId, setConversationId] = useState(makeId)
-  const [messages, setMessages]         = useState<Message[]>([])
-  const [isLoading, setIsLoading]       = useState(false)
+  const [messages, setMessages]           = useState<Message[]>([])
+  const [isLoading, setIsLoading]         = useState(false)
+  const [summaryFile, setSummaryFile]     = useState<string | null>(null)
 
   // Append or update a message by id
   function upsertMessage(msg: Message) {
@@ -125,9 +127,22 @@ export default function App() {
         onUserIdChange={setUserId}
         onNewChat={handleNewChat}
       />
-      <IngestPanel userId={userId} onIngested={handleIngested} />
+      <IngestPanel
+        userId={userId}
+        onIngested={handleIngested}
+        onSummarize={setSummaryFile}
+      />
       <ChatWindow messages={messages} />
       <InputBar onSend={sendQuestion} isLoading={isLoading} />
+
+      {/* Summary modal — shown when user clicks "Summarize document" */}
+      {summaryFile && (
+        <SummaryModal
+          fileName={summaryFile}
+          userId={userId}
+          onClose={() => setSummaryFile(null)}
+        />
+      )}
     </div>
   )
 }

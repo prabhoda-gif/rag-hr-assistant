@@ -65,10 +65,11 @@ else
     builder.Services.AddSingleton<IRetrievalService, RetrievalService>();
 
 // ── Core RAG Services ──────────────────────────────────────────────────────
-builder.Services.AddSingleton<IEmbeddingService,  EmbeddingService>();
-builder.Services.AddSingleton<IIngestionService,  IngestionService>();
-builder.Services.AddSingleton<IAnswerService,     AnswerService>();
-builder.Services.AddSingleton<IConversationStore, ConversationStore>();
+builder.Services.AddSingleton<IEmbeddingService,     EmbeddingService>();
+builder.Services.AddSingleton<IIngestionService,     IngestionService>();
+builder.Services.AddSingleton<IAnswerService,        AnswerService>();
+builder.Services.AddSingleton<ISummarizationService, SummarizationService>();
+builder.Services.AddSingleton<IConversationStore,    ConversationStore>();
 
 var app = builder.Build();
 

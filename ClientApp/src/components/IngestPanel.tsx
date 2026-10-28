@@ -1,18 +1,20 @@
 import { useState, useRef } from 'react'
-import { Upload, FileText, CheckCircle, AlertCircle, Loader2 } from 'lucide-react'
+import { Upload, FileText, CheckCircle, AlertCircle, Loader2, BookOpen } from 'lucide-react'
 import type { IngestResponse } from '../types'
 
 interface IngestPanelProps {
   userId: string
   onIngested: (info: IngestResponse) => void
+  onSummarize: (fileName: string) => void
 }
 
 type Status = 'idle' | 'uploading' | 'success' | 'error'
 
-export function IngestPanel({ userId, onIngested }: IngestPanelProps) {
-  const [status, setStatus]   = useState<Status>('idle')
-  const [message, setMessage] = useState('')
+export function IngestPanel({ userId, onIngested, onSummarize }: IngestPanelProps) {
+  const [status, setStatus]     = useState<Status>('idle')
+  const [message, setMessage]   = useState('')
   const [isDragging, setIsDragging] = useState(false)
+  const [lastFile, setLastFile] = useState<string | null>(null)
   const fileRef = useRef<HTMLInputElement>(null)
 
   async function upload(file: File) {
@@ -41,6 +43,7 @@ export function IngestPanel({ userId, onIngested }: IngestPanelProps) {
       const data: IngestResponse = await resp.json()
       setStatus('success')
       setMessage(`${data.chunks} chunks · ${data.timeTaken}`)
+      setLastFile(data.fileName)
       onIngested(data)
     } catch (err: unknown) {
       setStatus('error')
@@ -106,12 +109,22 @@ export function IngestPanel({ userId, onIngested }: IngestPanelProps) {
         )}
       </div>
 
-      {/* Recently ingested file info */}
-      {status === 'success' && (
-        <p className="text-xs text-amber-600 mt-1 flex items-center gap-1">
-          <FileText className="w-3 h-3" />
-          Document indexed for user <strong>{userId}</strong> — ready to query
-        </p>
+      {/* Recently ingested file info + Summarize button */}
+      {status === 'success' && lastFile && (
+        <div className="flex items-center gap-3 mt-1">
+          <p className="text-xs text-amber-600 flex items-center gap-1">
+            <FileText className="w-3 h-3" />
+            Document indexed for user <strong>{userId}</strong> — ready to query
+          </p>
+          <button
+            onClick={() => onSummarize(lastFile)}
+            className="flex items-center gap-1 text-xs bg-blue-600 hover:bg-blue-700
+                       text-white px-3 py-1 rounded-full transition-colors"
+          >
+            <BookOpen className="w-3 h-3" />
+            Summarize document
+          </button>
+        </div>
       )}
     </div>
   )
