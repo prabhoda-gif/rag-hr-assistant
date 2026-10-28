@@ -1,0 +1,10 @@
+{"id": 1, "question": "How many days of paid annual leave do full-time employees get?", "expected_keywords": ["20 days", "annual leave"], "source_file": "hr-handbook.txt"}
+{"id": 2, "question": "How far in advance must leave be requested?", "expected_keywords": ["4 weeks", "advance", "HR portal"], "source_file": "hr-handbook.txt"}
+{"id": 3, "question": "How many days of unused leave can be carried over to the next year?", "expected_keywords": ["5 days", "carried over"], "source_file": "hr-handbook.txt"}
+{"id": 4, "question": "How many weeks of paid parental leave do primary caregivers get?", "expected_keywords": ["16 weeks", "primary", "parental leave"], "source_file": "hr-handbook.txt"}
+{"id": 5, "question": "How much parental leave do secondary caregivers receive?", "expected_keywords": ["4 weeks", "secondary", "parental leave"], "source_file": "hr-handbook.txt"}
+{"id": 6, "question": "When must parental leave be taken by?", "expected_keywords": ["12 months", "birth", "adoption"], "source_file": "hr-handbook.txt"}
+{"id": 7, "question": "How many days of paid sick leave are employees entitled to per year?", "expected_keywords": ["10 days", "sick leave"], "source_file": "hr-handbook.txt"}
+{"id": 8, "question": "When is a medical certificate required for sick leave?", "expected_keywords": ["3 consecutive days", "medical certificate"], "source_file": "hr-handbook.txt"}
+{"id": 9, "question": "How often do employees receive a formal performance review?", "expected_keywords": ["6 months", "performance review"], "source_file": "hr-handbook.txt"}
+{"id": 10, "question": "What happens if an employee receives a rating of 1 for two consecutive reviews?", "expected_keywords": ["formal performance", "rating of 1", "consecutive"], "source_file": "hr-handbook.txt"}

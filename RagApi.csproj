@@ -12,6 +12,10 @@
     <Content Remove="RagApi.Tests\**" />
     <EmbeddedResource Remove="RagApi.Tests\**" />
     <None Remove="RagApi.Tests\**" />
+    <Compile Remove="EvalRunner\**" />
+    <Content Remove="EvalRunner\**" />
+    <EmbeddedResource Remove="EvalRunner\**" />
+    <None Remove="EvalRunner\**" />
   </ItemGroup>
 
   <ItemGroup>
