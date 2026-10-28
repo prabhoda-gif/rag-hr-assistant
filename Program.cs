@@ -50,9 +50,22 @@ else
         new FixedSizeChunkingStrategy(chunkSize, chunkOverlap));
 }
 
+// ── Retrieval Strategy (selected by config) ───────────────────────────────
+// LEARNING NOTE: This lets you switch between pure vector search and hybrid
+// retrieval (vector + Full-Text keyword search fused with RRF) via config.
+// Set Rag:RetrievalStrategy = "hybrid" in appsettings.json to enable.
+// Prerequisite for hybrid: run sql/migration_002_fulltext_index.sql first.
+string retrievalStrategy = builder.Configuration
+    .GetValue<string>("Rag:RetrievalStrategy", "vector")!
+    .ToLowerInvariant();
+
+if (retrievalStrategy == "hybrid")
+    builder.Services.AddSingleton<IRetrievalService, HybridRetrievalService>();
+else
+    builder.Services.AddSingleton<IRetrievalService, RetrievalService>();
+
 // ── Core RAG Services ──────────────────────────────────────────────────────
 builder.Services.AddSingleton<IEmbeddingService,  EmbeddingService>();
-builder.Services.AddSingleton<IRetrievalService,  RetrievalService>();
 builder.Services.AddSingleton<IIngestionService,  IngestionService>();
 builder.Services.AddSingleton<IAnswerService,     AnswerService>();
 builder.Services.AddSingleton<IConversationStore, ConversationStore>();

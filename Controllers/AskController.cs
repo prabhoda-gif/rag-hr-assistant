@@ -44,6 +44,10 @@ public class AskController : ControllerBase
         if (queryText != request.Question)
             _logger.LogInformation("Rewritten query: {Query}", queryText);
 
+        // If hybrid retrieval is active, pass the question text for keyword search
+        if (_retrieval is HybridRetrievalService hybrid)
+            hybrid.SetQuestion(queryText);
+
         float[] vector  = await _embedder.EmbedAsync(queryText);
         var     chunks  = await _retrieval.RetrieveAsync(vector, request.UserId);
 
@@ -94,6 +98,11 @@ public class AskController : ControllerBase
 
         var     history   = _conversations.GetHistory(request.ConversationId);
         string  queryText = await _answer.RewriteQuestionAsync(request.Question, history);
+
+        // If hybrid retrieval is active, pass the question text for keyword search
+        if (_retrieval is HybridRetrievalService hybrid2)
+            hybrid2.SetQuestion(queryText);
+
         float[] vector    = await _embedder.EmbedAsync(queryText);
         var     chunks    = await _retrieval.RetrieveAsync(vector, request.UserId);
 
