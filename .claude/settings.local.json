@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p \"d:/AI_ML_Shiv/RAG/Project/RagApi/Services/Chunking\" \"d:/AI_ML_Shiv/RAG/Project/RagApi/Services/Pdf\")"
+    ],
+    "additionalDirectories": [
+      "d:\\AI_ML_Shiv\\RAG\\Project\\RagApi\\Services"
+    ]
+  }
+}
