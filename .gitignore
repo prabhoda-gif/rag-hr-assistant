@@ -1,0 +1,31 @@
+# Build output
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Local settings — NEVER commit these (contain API keys)
+appsettings.Development.json
+appsettings.Local.json
+.env
+*.env
+
+# .NET user secrets
+secrets.json
+
+# Logs
+logs/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Uploaded documents (may contain sensitive data)
+uploads/
+docs-store/
