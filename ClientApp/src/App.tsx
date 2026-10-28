@@ -4,7 +4,10 @@ import { IngestPanel } from './components/IngestPanel'
 import { ChatWindow } from './components/ChatWindow'
 import { InputBar } from './components/InputBar'
 import { SummaryModal } from './components/SummaryModal'
+import { AgentChat } from './components/AgentChat'
 import type { Message, ChunkResult, IngestResponse } from './types'
+
+type Tab = 'chat' | 'agent'
 
 function makeId() {
   return Math.random().toString(36).slice(2)
@@ -16,6 +19,7 @@ export default function App() {
   const [messages, setMessages]           = useState<Message[]>([])
   const [isLoading, setIsLoading]         = useState(false)
   const [summaryFile, setSummaryFile]     = useState<string | null>(null)
+  const [activeTab, setActiveTab]         = useState<Tab>('chat')
 
   // Append or update a message by id
   function upsertMessage(msg: Message) {
@@ -132,10 +136,42 @@ export default function App() {
         onIngested={handleIngested}
         onSummarize={setSummaryFile}
       />
-      <ChatWindow messages={messages} />
-      <InputBar onSend={sendQuestion} isLoading={isLoading} />
 
-      {/* Summary modal — shown when user clicks "Summarize document" */}
+      {/* Tab bar */}
+      <div className="flex border-b border-gray-200 bg-white px-4">
+        <button
+          onClick={() => setActiveTab('chat')}
+          className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
+            activeTab === 'chat'
+              ? 'border-blue-600 text-blue-600'
+              : 'border-transparent text-gray-500 hover:text-gray-700'
+          }`}
+        >
+          💬 Chat
+        </button>
+        <button
+          onClick={() => setActiveTab('agent')}
+          className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
+            activeTab === 'agent'
+              ? 'border-blue-600 text-blue-600'
+              : 'border-transparent text-gray-500 hover:text-gray-700'
+          }`}
+        >
+          🤖 Agent
+        </button>
+      </div>
+
+      {/* Tab content */}
+      {activeTab === 'chat' ? (
+        <>
+          <ChatWindow messages={messages} />
+          <InputBar onSend={sendQuestion} isLoading={isLoading} />
+        </>
+      ) : (
+        <AgentChat userId={userId} />
+      )}
+
+      {/* Summary modal */}
       {summaryFile && (
         <SummaryModal
           fileName={summaryFile}

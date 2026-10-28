@@ -1,4 +1,5 @@
 using RagApi.Services;
+using RagApi.Services.Agent;
 using RagApi.Services.Chunking;
 using RagApi.Services.Pdf;
 
@@ -70,6 +71,7 @@ builder.Services.AddSingleton<IIngestionService,     IngestionService>();
 builder.Services.AddSingleton<IAnswerService,        AnswerService>();
 builder.Services.AddSingleton<ISummarizationService, SummarizationService>();
 builder.Services.AddSingleton<IConversationStore,    ConversationStore>();
+builder.Services.AddSingleton<IAgentService,         AgentService>();
 
 var app = builder.Build();
 
