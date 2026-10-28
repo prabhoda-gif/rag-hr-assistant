@@ -1,0 +1,22 @@
+# .NET build output — Docker builds from source, not local binaries
+bin/
+obj/
+
+# Node modules — Docker runs npm install itself inside the image
+ClientApp/node_modules/
+
+# Local secrets — NEVER copy into an image
+appsettings.Development.json
+appsettings.Local.json
+.env
+
+# Git and IDE files — not needed inside the container
+.git/
+.vs/
+.gitignore
+*.user
+
+# Logs and uploaded files — runtime data, not source code
+logs/
+uploads/
+docs-store/

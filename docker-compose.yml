@@ -1,0 +1,48 @@
+# =============================================================================
+# docker-compose.yml — RAG HR Assistant
+#
+# LEARNING NOTE — What is Docker Compose?
+# Docker Compose lets you define and run one or more containers with a single
+# command. Instead of typing a long "docker run" command with all the flags,
+# you describe everything here and run: docker-compose up
+#
+# This file runs only the API container.
+# SQL Server stays on your local machine — the container reaches it via
+# host.docker.internal (Docker's built-in hostname for the host machine).
+# =============================================================================
+
+services:
+
+  api:
+    # Build the image from our Dockerfile in the current directory
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    # Container name — makes it easy to reference in logs and docker commands
+    container_name: rag-hr-api
+
+    # Map host port 8080 → container port 8080
+    # Format: "host:container"
+    # Visit http://localhost:8080 in your browser
+    ports:
+      - "8080:8080"
+
+    # Environment variables — these override appsettings.json at runtime.
+    # ASP.NET Core maps OpenAI__ApiKey → config["OpenAI:ApiKey"]
+    # (double underscore = colon in .NET configuration)
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - OpenAI__ApiKey=${OPENAI_API_KEY}
+      - ConnectionStrings__RAGDemo=${SQL_CONNECTION}
+
+    # Load variables from .env file (gitignored — never committed)
+    env_file:
+      - .env
+
+    # Allow container to reach host machine's SQL Server via host.docker.internal
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+    # Restart automatically if the container crashes
+    restart: unless-stopped
