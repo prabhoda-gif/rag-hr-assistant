@@ -6,6 +6,14 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <!-- Exclude the test project subfolder from this project's compilation -->
+  <ItemGroup>
+    <Compile Remove="RagApi.Tests\**" />
+    <Content Remove="RagApi.Tests\**" />
+    <EmbeddedResource Remove="RagApi.Tests\**" />
+    <None Remove="RagApi.Tests\**" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.0" />
     <PackageReference Include="Microsoft.Extensions.AI.OpenAI" Version="10.3.0" />
